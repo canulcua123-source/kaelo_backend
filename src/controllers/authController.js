@@ -14,6 +14,12 @@ exports.register = async (req, res) => {
       return res.status(400).json({ msg: 'El usuario ya existe' });
     }
 
+    // Validar el rol
+    const allowedRoles = User.getAttributes().rol.values;
+    if (!rol || !allowedRoles.includes(rol)) {
+      return res.status(400).json({ msg: `El rol '${rol}' no es válido. Los roles permitidos son: ${allowedRoles.join(', ')}` });
+    }
+
     // Crear nuevo usuario
     user = User.build({ nombre, email, password, rol });
 

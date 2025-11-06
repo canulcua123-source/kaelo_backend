@@ -22,12 +22,17 @@ connectDB();
 // Middlewares
 app.use(express.json({ extended: false }));
 
+// CORS
+const cors = require('cors');
+app.use(cors());
+
 app.get('/', (req, res) => {
   res.send('API funcionando');
 });
 
 // Definir Rutas
 app.use('/api/auth', require('./src/routes/auth'));
+app.use('/api/admin', require('./src/routes/admin'));
 
 const PORT = process.env.PORT || 3000;
 

@@ -72,3 +72,32 @@ Estos son los endpoints para la gestión de cuentas de usuario.
       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
     }
     ```
+
+---
+
+## 3. Módulo de Administración
+
+Endpoints para la gestión y monitoreo de la plataforma. Requieren un rol de `Admin`.
+
+### Obtener estadísticas del Dashboard
+
+-   **Método:** `GET`
+-   **URL:** `/api/admin/dashboard`
+-   **Descripción:** Devuelve un resumen de las métricas clave de la plataforma para ser mostradas en el panel de administración.
+-   **Acceso:** Privado (Solo para usuarios con rol `Admin`)
+-   **Headers (Request):**
+
+    ```
+    x-auth-token: <tu_jwt_de_admin>
+    ```
+
+-   **Respuesta Exitosa (200 OK):**
+
+    ```json
+    {
+      "totalUsers": 150,
+      "totalRoutes": 45,
+      "activeStores": 23,
+      "totalSales": 1250.75
+    }
+    ```
