@@ -34,6 +34,7 @@ exports.register = async (req, res) => {
     const payload = {
       user: {
         id: user.id,
+        rol: user.rol, // Incluir el rol del usuario en el payload
       },
     };
 
@@ -72,6 +73,7 @@ exports.login = async (req, res) => {
     const payload = {
       user: {
         id: user.id,
+        rol: user.rol, // Incluir el rol del usuario en el payload
       },
     };
 

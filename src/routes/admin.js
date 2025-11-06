@@ -1,11 +1,81 @@
 const express = require('express');
 const router = express.Router();
-const { getDashboardStats } = require('../controllers/adminController');
+const { 
+  getDashboardStats, 
+  getUsers, 
+  createUser, 
+  updateUser, 
+  deleteUser,
+  getRoutes,
+  updateRouteStatus,
+  deleteRoute,
+  getStores,
+  updateStoreStatus,
+  getTransactions
+} = require('../controllers/adminController');
 const authAdmin = require('../middlewares/authAdmin');
 
 // @route   GET api/admin/dashboard
 // @desc    Obtener estadísticas para el dashboard de admin
 // @access  Private (Admin)
 router.get('/dashboard', authAdmin, getDashboardStats);
+
+// --- Gestión de Usuarios ---
+
+// @route   GET api/admin/users
+// @desc    Obtener todos los usuarios
+// @access  Private (Admin)
+router.get('/users', authAdmin, getUsers);
+
+// @route   POST api/admin/users
+// @desc    Crear un nuevo usuario
+// @access  Private (Admin)
+router.post('/users', authAdmin, createUser);
+
+// @route   PUT api/admin/users/:id
+// @desc    Actualizar un usuario
+// @access  Private (Admin)
+router.put('/users/:id', authAdmin, updateUser);
+
+// @route   DELETE api/admin/users/:id
+// @desc    Eliminar un usuario
+// @access  Private (Admin)
+router.delete('/users/:id', authAdmin, deleteUser);
+
+// --- Gestión de Rutas ---
+
+// @route   GET api/admin/routes
+// @desc    Obtener todas las rutas
+// @access  Private (Admin)
+router.get('/routes', authAdmin, getRoutes);
+
+// @route   PUT api/admin/routes/:id/status
+// @desc    Actualizar el estado de una ruta (aprobar/rechazar)
+// @access  Private (Admin)
+router.put('/routes/:id/status', authAdmin, updateRouteStatus);
+
+// @route   DELETE api/admin/routes/:id
+// @desc    Eliminar una ruta
+// @access  Private (Admin)
+router.delete('/routes/:id', authAdmin, deleteRoute);
+
+// --- Gestión de Comercios ---
+
+// @route   GET api/admin/stores
+// @desc    Obtener todos los comercios
+// @access  Private (Admin)
+router.get('/stores', authAdmin, getStores);
+
+// @route   PUT api/admin/stores/:id/status
+// @desc    Actualizar el estado de un comercio (aprobar/rechazar)
+// @access  Private (Admin)
+router.put('/stores/:id/status', authAdmin, updateStoreStatus);
+
+// --- Gestión de Transacciones ---
+
+// @route   GET api/admin/transactions
+// @desc    Obtener todas las transacciones
+// @access  Private (Admin)
+router.get('/transactions', authAdmin, getTransactions);
 
 module.exports = router;
