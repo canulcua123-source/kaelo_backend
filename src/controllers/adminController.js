@@ -133,31 +133,7 @@ exports.getRoutes = async (req, res) => {
   }
 };
 
-exports.updateRouteStatus = async (req, res) => {
-  const { id } = req.params;
-  const { estado } = req.body;
 
-  try {
-    const route = await Route.findByPk(id);
-    if (!route) {
-      return res.status(404).json({ msg: 'Ruta no encontrada' });
-    }
-
-    const allowedStatus = Route.getAttributes().estado.values;
-    if (!estado || !allowedStatus.includes(estado)) {
-      return res.status(400).json({ msg: `El estado '${estado}' no es válido.` });
-    }
-
-    route.estado = estado;
-    await route.save();
-
-    res.json({ msg: `Ruta ${estado} exitosamente` });
-
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send('Error en el servidor');
-  }
-};
 
 exports.deleteRoute = async (req, res) => {
   const { id } = req.params;
@@ -178,6 +154,45 @@ exports.deleteRoute = async (req, res) => {
   }
 };
 
+exports.createRoute = async (req, res) => {
+    const { nombre, descripcion, distancia, dificultad, precio, creadorId } = req.body;
+
+    try {
+        const newRoute = await Route.create({ nombre, descripcion, distancia, dificultad, precio, creadorId });
+        res.status(201).json(newRoute);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Error en el servidor');
+    }
+};
+
+exports.updateRoute = async (req, res) => {
+    const { id } = req.params;
+    const { nombre, descripcion, distancia, dificultad, precio, estado } = req.body;
+
+    try {
+        let route = await Route.findByPk(id);
+        if (!route) {
+            return res.status(404).json({ msg: 'Ruta no encontrada' });
+        }
+
+        route.nombre = nombre || route.nombre;
+        route.descripcion = descripcion || route.descripcion;
+        route.distancia = distancia || route.distancia;
+        route.dificultad = dificultad || route.dificultad;
+        route.precio = precio || route.precio;
+        route.estado = estado || route.estado;
+
+        await route.save();
+
+        res.json({ msg: 'Ruta actualizada exitosamente' });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Error en el servidor');
+    }
+};
+
 // --- Gestión de Comercios ---
 
 exports.getStores = async (req, res) => {
@@ -196,30 +211,62 @@ exports.getStores = async (req, res) => {
   }
 };
 
-exports.updateStoreStatus = async (req, res) => {
-  const { id } = req.params;
-  const { estado } = req.body;
 
-  try {
-    const store = await Store.findByPk(id);
-    if (!store) {
-      return res.status(404).json({ msg: 'Comercio no encontrado' });
+
+exports.createStore = async (req, res) => {
+    const { nombre, descripcion, ubicacion, propietarioId } = req.body;
+
+    try {
+        const newStore = await Store.create({ nombre, descripcion, ubicacion, propietarioId });
+        res.status(201).json(newStore);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Error en el servidor');
     }
+};
 
-    const allowedStatus = Store.getAttributes().estado.values;
-    if (!estado || !allowedStatus.includes(estado)) {
-      return res.status(400).json({ msg: `El estado '${estado}' no es válido.` });
+exports.updateStore = async (req, res) => {
+    const { id } = req.params;
+    const { nombre, descripcion, ubicacion, estado } = req.body;
+
+    try {
+        let store = await Store.findByPk(id);
+        if (!store) {
+            return res.status(404).json({ msg: 'Comercio no encontrado' });
+        }
+
+        store.nombre = nombre || store.nombre;
+        store.descripcion = descripcion || store.descripcion;
+        store.ubicacion = ubicacion || store.ubicacion;
+        store.estado = estado || store.estado;
+
+        await store.save();
+
+        res.json({ msg: 'Comercio actualizado exitosamente' });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Error en el servidor');
     }
+};
 
-    store.estado = estado;
-    await store.save();
+exports.deleteStore = async (req, res) => {
+    const { id } = req.params;
 
-    res.json({ msg: `Comercio ${estado} exitosamente` });
+    try {
+        const store = await Store.findByPk(id);
+        if (!store) {
+            return res.status(404).json({ msg: 'Comercio no encontrado' });
+        }
 
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send('Error en el servidor');
-  }
+        await store.destroy();
+
+        res.json({ msg: 'Comercio eliminado exitosamente' });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Error en el servidor');
+    }
 };
 
 // --- Gestión de Transacciones ---

@@ -7,10 +7,13 @@ const {
   updateUser, 
   deleteUser,
   getRoutes,
-  updateRouteStatus,
+  createRoute,
+  updateRoute,
   deleteRoute,
   getStores,
-  updateStoreStatus,
+  createStore,
+  updateStore,
+  deleteStore,
   getTransactions
 } = require('../controllers/adminController');
 const authAdmin = require('../middlewares/authAdmin');
@@ -49,10 +52,12 @@ router.delete('/users/:id', authAdmin, deleteUser);
 // @access  Private (Admin)
 router.get('/routes', authAdmin, getRoutes);
 
-// @route   PUT api/admin/routes/:id/status
-// @desc    Actualizar el estado de una ruta (aprobar/rechazar)
+router.post('/routes', authAdmin, createRoute);
+
+// @route   PUT api/admin/routes/:id
+// @desc    Actualizar una ruta
 // @access  Private (Admin)
-router.put('/routes/:id/status', authAdmin, updateRouteStatus);
+router.put('/routes/:id', authAdmin, updateRoute);
 
 // @route   DELETE api/admin/routes/:id
 // @desc    Eliminar una ruta
@@ -66,10 +71,17 @@ router.delete('/routes/:id', authAdmin, deleteRoute);
 // @access  Private (Admin)
 router.get('/stores', authAdmin, getStores);
 
-// @route   PUT api/admin/stores/:id/status
-// @desc    Actualizar el estado de un comercio (aprobar/rechazar)
+router.post('/stores', authAdmin, createStore);
+
+// @route   PUT api/admin/stores/:id
+// @desc    Actualizar un comercio
 // @access  Private (Admin)
-router.put('/stores/:id/status', authAdmin, updateStoreStatus);
+router.put('/stores/:id', authAdmin, updateStore);
+
+// @route   DELETE api/admin/stores/:id
+// @desc    Eliminar un comercio
+// @access  Private (Admin)
+router.delete('/stores/:id', authAdmin, deleteStore);
 
 // --- Gestión de Transacciones ---
 
